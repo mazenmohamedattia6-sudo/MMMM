@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>كنز الكابتن ملك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="fx" id="fx" aria-hidden="true"></div>
+
+<!-- top bar -->
+<header class="top">
+  <div class="brand">⚓ الكابتن ملك</div>
+  <div class="inv" id="inv" aria-label="الحاجات اللي جمعتيها">
+    <span class="slot" data-k="0">؟</span>
+    <span class="slot" data-k="1">؟</span>
+    <span class="slot" data-k="2">؟</span>
+    <span class="slot" data-k="3">؟</span>
+  </div>
+</header>
+
+<p class="goal" id="goal">اضغطي على الجزيرة اللي بتنوّر ✨</p>
+
+<!-- the sea -->
+<svg id="map" viewBox="0 0 360 640" preserveAspectRatio="xMidYMid meet" aria-label="خريطة البحر">
+  <g id="waves"></g>
+  <g id="routes"></g>
+  <g id="wake"></g>
+  <g id="islands"></g>
+  <g id="ship"></g>
+</svg>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- island sheet -->
+<section class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet-card">
+    <h2 class="s-name" id="sName"></h2>
+    <p class="s-hint" id="sHint"></p>
+    <div class="stage" id="stage">
+      <button class="obj" id="obj" aria-label="دوسي هنا"></button>
+    </div>
+    <div class="dots" id="dots"></div>
+
+    <div class="reveal" id="reveal" hidden>
+      <div class="piece" id="piece"></div>
+      <p class="piece-name" id="pieceName"></p>
+      <p class="clue" id="clue"></p>
+      <button class="btn" id="go">كمّلي الرحلة ⛵</button>
+    </div>
+  </div>
+</section>
+
+<!-- treasure island -->
+<section class="treasure" id="treasure" aria-hidden="true">
+  <div class="t-card">
+
+    <div class="t-open" id="tClosed">
+      <h2 class="s-name">جزيرة الكنز 💎</h2>
+      <p class="s-hint" id="tHint">وصلتي! الكنز الكبير مستنيكي.. دوسي على الصندوق</p>
+      <div class="locks" id="locks"></div>
+      <button class="chest-btn" id="chestBtn" aria-label="افتحي الصندوق">
+        <svg id="chest" viewBox="0 0 160 130">
+          <ellipse cx="80" cy="120" rx="64" ry="8" fill="rgba(91,58,69,.14)"/>
+          <g id="chestGlow" opacity="0">
+            <ellipse cx="80" cy="62" rx="70" ry="48" fill="#FFE9A8" opacity=".75"/>
+          </g>
+          <!-- body -->
+          <rect x="22" y="56" width="116" height="58" rx="8" fill="#C99A6B" stroke="#8F6A44" stroke-width="3"/>
+          <rect x="22" y="72" width="116" height="8" fill="#B58655"/>
+          <rect x="34" y="56" width="10" height="58" fill="#E3B866"/>
+          <rect x="116" y="56" width="10" height="58" fill="#E3B866"/>
+          <!-- coins (revealed) -->
+          <g id="coins" opacity="0">
+            <ellipse cx="80" cy="58" rx="46" ry="10" fill="#E3B866"/>
+            <circle cx="58" cy="52" r="9" fill="#F4CF7A" stroke="#C9A04A" stroke-width="2"/>
+            <circle cx="82" cy="46" r="10" fill="#F4CF7A" stroke="#C9A04A" stroke-width="2"/>
+            <circle cx="104" cy="53" r="9" fill="#F4CF7A" stroke="#C9A04A" stroke-width="2"/>
+            <text x="82" y="51" text-anchor="middle" font-size="12" fill="#C9758F">♥</text>
+          </g>
+          <!-- lid -->
+          <g id="lid">
+            <path d="M22 58 Q22 22 80 22 Q138 22 138 58 Z" fill="#D8AB78" stroke="#8F6A44" stroke-width="3"/>
+            <rect x="34" y="26" width="10" height="32" fill="#E3B866" transform="rotate(-8 39 42)"/>
+            <rect x="116" y="26" width="10" height="32" fill="#E3B866" transform="rotate(8 121 42)"/>
+          </g>
+          <!-- lock -->
+          <g id="lockPlate">
+            <rect x="68" y="50" width="24" height="26" rx="5" fill="#E3B866" stroke="#8F6A44" stroke-width="2.5"/>
+            <circle cx="80" cy="60" r="4" fill="#5B3A45"/>
+            <rect x="78.5" y="62" width="3" height="8" rx="1.5" fill="#5B3A45"/>
+          </g>
+        </svg>
+      </button>
+    </div>
+
+    <div class="scroll" id="tOpened" hidden>
+      <div class="cat-big" id="catBig"></div>
+      <div class="paper">
+        <div class="tape"></div>
+        <p class="p-title">يا ملك.. يا أم ليلى 💗</p>
+        <p class="p-text">
+          أنا بحبك أوي، انتي كل حاجة في حياتي.<br>
+          أنا بعشقك وبموت فيكي.<br><br>
+          أنا آسف إني زعلتك، حقك عليا إني مقصّر معاكي.<br><br>
+          انتي حلوة أوي، وشعرك حلو أوي،<br>
+          وكل حاجة فيكي.
+        </p>
+        <p class="p-end">بحبك يا ملوكتي 💗</p>
+        <p class="p-sign">— مازن</p>
+      </div>
+      <p class="cat-say" id="catSay">دوسي على القطة 🐱</p>
+      <button class="btn ghost" id="again">رحلة تانية 🔄</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- start screen -->
+<section class="start" id="start">
+  <div class="start-card">
+    <span class="eyebrow">from Mazen — with love</span>
+    <div class="cat-start" id="catStart"></div>
+    <h1 class="s-title">كنز الكابتن ملك 🏴‍☠️</h1>
+    <p class="s-sub">
+      ملك وقطتها ركبوا المركب ورايحين يدوّروا على كنز كبير.<br>
+      هتعدّي على 4 جزر، وكل جزيرة فيها حاجة تتجمّع،<br>
+      وفي الآخر.. الكنز الكبير مستنيكي.
+    </p>
+    <button class="btn big" id="startBtn">ابدأي الرحلة ⛵</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
